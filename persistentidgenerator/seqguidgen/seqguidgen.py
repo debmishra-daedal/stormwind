@@ -170,3 +170,7 @@ class guidgen:
         stdout_log = self.stdout_stream.getvalue()
         stderr_log = self.stderr_stream.getvalue()
         return self
+
+
+val = guidgen().generate_id()
+print(val.numericId, val.category)

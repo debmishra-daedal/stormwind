@@ -45,9 +45,9 @@ droppedQuery = """CREATE TABLE IF NOT EXISTS droppedID (
     category VARCHAR(20),
     dropped_value BIGINT)"""
 tableList = {"savedID": createQuery, "droppedID": droppedQuery}
-squerySavedID = "select last_value from savedID where category=?"
-uquerySavedID = "update savedID set last_value = ? where category=?"
-iquerySavedID = "insert into savedID (category, last_value) values (?,?)"
-iquerydroppedID = "insert into droppedID (category, dropped_value) values (?,?)"
-squerydroppedIDs = "select last_value from savedID where category=?"
-squerydroppedIDt = "select 1 from droppedID where category=? and dropped_value=?"
+squerySavedID = f"select last_value from savedID where category=?"
+uquerySavedID = f"update savedID set last_value = ? where category=?"
+iquerySavedID = f"insert into savedID (category, last_value) values (?,?)"
+iquerydroppedID = f"insert into droppedID (category, dropped_value) values (?,?)"
+squerydroppedIDs = f"select last_value from savedID where category=?"
+squerydroppedIDt = f"select 1 from droppedID where category=? and dropped_value=?"
