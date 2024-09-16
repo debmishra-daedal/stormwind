@@ -22,10 +22,23 @@
 
 import sqlite3, sys, os, io, contextlib
 
-sys.path.append("..")
-from seqguidgen import domainSet, defLoc, dbPath, tableList
-from seqguidgen import squerySavedID, uquerySavedID, iquerySavedID
-from seqguidgen import iquerydroppedID, squerydroppedIDs, squerydroppedIDt
+sys.path.append("../..")
+from persistentidgenerator.persistentidgenerator import (
+    domainSet,
+    defLoc,
+    dbPath,
+    tableList,
+)
+from persistentidgenerator.persistentidgenerator import (
+    squerySavedID,
+    uquerySavedID,
+    iquerySavedID,
+)
+from persistentidgenerator.persistentidgenerator import (
+    iquerydroppedID,
+    squerydroppedIDs,
+    squerydroppedIDt,
+)
 
 
 class guidgen:
@@ -119,7 +132,6 @@ class guidgen:
                     )
                 else:
                     limit = (catval + 1) * self.numid
-                    sys.stdout.write(catval + 1, self.numid)
                     if numericId[0] < limit:
                         self.numericId = numericId[0] + 1
                         cursor.execute(uquerySavedID, (self.numericId, cat))
@@ -167,10 +179,6 @@ class guidgen:
 
     # Log output and errors
     def logger(self):
-        stdout_log = self.stdout_stream.getvalue()
-        stderr_log = self.stderr_stream.getvalue()
+        self.stdout_log = self.stdout_stream.getvalue()
+        self.stderr_log = self.stderr_stream.getvalue()
         return self
-
-
-val = guidgen().generate_id()
-print(val.numericId, val.category)

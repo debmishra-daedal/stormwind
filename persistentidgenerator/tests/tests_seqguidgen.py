@@ -2,7 +2,7 @@ import unittest, sys
 from unittest.mock import patch
 
 sys.path.append("../..")
-import seqguidgen.seqguidgen as idgen
+import persistentidgenerator.persistentidgenerator.seqguidgen as idgen
 
 
 class Testpersistentidgen(unittest.TestCase):

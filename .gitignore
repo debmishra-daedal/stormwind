@@ -8,3 +8,6 @@ poetry.lock
 
 # Python cache and compiled files
 **/__pycache__/
+
+# database files
+*.db 
