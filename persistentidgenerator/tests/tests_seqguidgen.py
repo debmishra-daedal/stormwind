@@ -1,6 +1,8 @@
-import unittest
+import unittest, sys
 from unittest.mock import patch
-from persistentidgen import seqguidgen as idgen
+
+sys.path.append("../..")
+import persistentidgenerator.persistentidgenerator.seqguidgen as idgen
 
 
 class Testpersistentidgen(unittest.TestCase):
@@ -26,8 +28,8 @@ class Testpersistentidgen(unittest.TestCase):
     #     mock_exit.assert_called_with(1)
 
 
-# if __name__ == "__main__":
-#     unittest.main()
+if __name__ == "__main__":
+    unittest.main()
 
 
 # guidgen().create_table()

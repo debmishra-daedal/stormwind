@@ -1,0 +1,13 @@
+#Environment Files
+
+#virtual environments
+.strmwnd/
+
+#poetry related files
+poetry.lock
+
+# Python cache and compiled files
+**/__pycache__/
+
+# database files
+*.db 
