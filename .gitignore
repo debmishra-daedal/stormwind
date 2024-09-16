@@ -5,9 +5,14 @@
 
 #poetry related files
 poetry.lock
+dist/
 
 # Python cache and compiled files
 **/__pycache__/
 
 # database files
 *.db 
+
+#vs-code files
+.vscode/
+*.code-workspace
