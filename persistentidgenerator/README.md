@@ -19,10 +19,6 @@ This Python program provides a robust solution for generating sequential IDs for
 
 ## Installation
 
-List of dependant modules are mentioned below.
-
-- `DateTime` = "^5.5"
-
   Ensure that you have SLITE_DB_PATH environment variable set. If not it'll store in profile and wont be persistent
   if you have concurrent users.
 
@@ -30,15 +26,22 @@ List of dependant modules are mentioned below.
 
 It has a class and multiple methods
 
-1.  **Classes**
+1. **Classes**
 
     - `guidgen` : All methods of the program are written here
 
-2.  **Methods**
+2. **Methods**
 
-    - `create_database()` : Creates the sqlite database for persistent storage
-    - `table_exists()` : Checks if the table exists
-    - `create_table()` : Creates new table, if table doesn't exist in database
+    - `generate_id()` : Creates the sqlite database for persistent storage
+    - `drop_id()` : Checks if the table exists
+    - `logger()` : Creates new table, if table doesn't exist in database
+
+3. **Examples**
+
+    - ***get a unique master id*** - guidgen.generate_id("fx").masterId
+    - ***get a unique numeric id*** - guidgen.generate_id("fx").numericId
+    - ***drop a numeric id*** - guidgen.drop_id(21,"fx")
+    - ***get a log details*** - guidgen.generate_id("fx").logOuput.stdout_log/stderr_log
 
 ## Contributing
 
@@ -50,4 +53,4 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 ## Contact
 
-For any questions or suggestions, please contact infra@daedal.codes.
+For any questions or suggestions, please contact <email@debmishra.me>.
