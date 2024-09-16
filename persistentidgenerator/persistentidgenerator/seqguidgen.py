@@ -17,22 +17,9 @@
 import sqlite3, sys, os, io, contextlib
 
 sys.path.append("../..")
-from persistentidgenerator.persistentidgenerator import (
-    domainSet,
-    defLoc,
-    dbPath,
-    tableList,
-)
-from persistentidgenerator.persistentidgenerator import (
-    squerySavedID,
-    uquerySavedID,
-    iquerySavedID,
-)
-from persistentidgenerator.persistentidgenerator import (
-    iquerydroppedID,
-    squerydroppedIDs,
-    squerydroppedIDt,
-)
+from persistentidgenerator import domainSet, defLoc, dbPath, tableList
+from persistentidgenerator import squerySavedID, uquerySavedID, iquerySavedID
+from persistentidgenerator import iquerydroppedID, squerydroppedIDs, squerydroppedIDt
 
 
 class guidgen:
