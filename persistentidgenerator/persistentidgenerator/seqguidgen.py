@@ -16,23 +16,10 @@
 
 import sqlite3, sys, os, io, contextlib
 
-sys.path.append("../..")
-from persistentidgenerator.persistentidgenerator import (
-    domainSet,
-    defLoc,
-    dbPath,
-    tableList,
-)
-from persistentidgenerator.persistentidgenerator import (
-    squerySavedID,
-    uquerySavedID,
-    iquerySavedID,
-)
-from persistentidgenerator.persistentidgenerator import (
-    iquerydroppedID,
-    squerydroppedIDs,
-    squerydroppedIDt,
-)
+sys.path.append("..")
+from persistentidgenerator import domainSet, defLoc, dbPath, tableList
+from persistentidgenerator import squerySavedID, uquerySavedID, iquerySavedID
+from persistentidgenerator import iquerydroppedID, squerydroppedIDs, squerydroppedIDt
 
 
 class guidgen:
@@ -73,27 +60,32 @@ class guidgen:
                     return conn
                 except sqlite3.Error as e:
                     sys.stderr.write(f"Error connecting database:{e}\n")
+        self.logout = self.stdout_stream.getvalue()
+        self.logerr = self.stderr_stream.getvalue()
+        return self
 
     # Check if the table exist
     def table_exists(self, tableName):
         with contextlib.redirect_stdout(self.stdout_stream), contextlib.redirect_stderr(
             self.stderr_stream
         ):
-            conn = guidgen().create_database()
+            conn = self.create_database()
             cursor = conn.cursor()
             cursor.execute(
                 f"SELECT name FROM sqlite_master WHERE type='table' AND name='{tableName}'\n"
             )
-            res = cursor.fetchone()
+            self.res = cursor.fetchone()
             conn.close()
-            return res
+        self.logout = self.stdout_stream.getvalue()
+        self.logerr = self.stderr_stream.getvalue()
+        return self
 
     def create_table(self):
         with contextlib.redirect_stdout(self.stdout_stream), contextlib.redirect_stderr(
             self.stderr_stream
         ):
             for t in tableList:
-                res = guidgen().table_exists(t)
+                res = self.table_exists(t).res
                 if res is None:
                     conn = guidgen().create_database()
                     cursor = conn.cursor()
@@ -103,14 +95,17 @@ class guidgen:
                     sys.stdout.write(f"table {t} created\n")
                 else:
                     sys.stdout.write(f"table {t} already exists\n")
+        self.logout = self.stdout_stream.getvalue()
+        self.logerr = self.stderr_stream.getvalue()
+        return self
 
     # Generate an unique ID that can be used across
     def generate_id(self, cat="oth"):
         with contextlib.redirect_stdout(self.stdout_stream), contextlib.redirect_stderr(
             self.stderr_stream
         ):
-            guidgen().create_table()
-            conn = guidgen().create_database()
+            self.create_table()
+            conn = self.create_database()
             cursor = conn.cursor()
             try:
                 catval = domainSet[cat]
@@ -124,25 +119,30 @@ class guidgen:
                             (cat, self.numericId),
                         ],
                     )
+                    self.category = cat
+                    self.masterId = cat.upper() + str(self.numericId)
                 else:
                     limit = (catval + 1) * self.numid
                     if numericId[0] < limit:
                         self.numericId = numericId[0] + 1
                         cursor.execute(uquerySavedID, (self.numericId, cat))
+                        self.category = cat
+                        self.masterId = cat.upper() + str(self.numericId)
                     else:
                         sys.stderr.write(
                             f"the latest master id {numericId} is already at limit of {limit}. Can't add a new one. Program will exit.\n"
                         )
-                        sys.exit(1)
                 conn.commit()
-                conn.close()
-                self.category = cat
-                self.masterId = cat.upper() + str(self.numericId)
-                self.logOutput = self.logger()
-                return self
             except KeyError:
                 sys.stderr.write(f"Key {cat} not found in dictionary")
-                sys.exit(1)
+                self.masterId = None
+                self.numericId = None
+                self.category = cat
+            finally:
+                conn.close()
+            self.logout = self.stdout_stream.getvalue()
+            self.logerr = self.stderr_stream.getvalue()
+            return self
 
     # Once a master id is removed, it has to go to the droppedID table. So that it can be reused
     def drop_id(self, id, cat="oth"):
@@ -172,11 +172,6 @@ class guidgen:
                 cursor.execute(iquerydroppedID, (cat, id))
             conn.commit()
             conn.close()
-            self.logoutput = self.logger()
+            self.logout = self.stdout_stream.getvalue()
+            self.logerr = self.stderr_stream.getvalue()
             return self
-
-    # Log output and errors
-    def logger(self):
-        self.stdout_log = self.stdout_stream.getvalue()
-        self.stderr_log = self.stderr_stream.getvalue()
-        return self

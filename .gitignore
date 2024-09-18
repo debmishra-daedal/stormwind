@@ -16,3 +16,6 @@ dist/
 #vs-code files
 .vscode/
 *.code-workspace
+
+# local development files
+publication-guidelines.md

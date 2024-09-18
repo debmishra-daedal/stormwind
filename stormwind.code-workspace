@@ -47,5 +47,9 @@
       "editor.formatOnSave": true
     },
     "python.defaultInterpreterPath": "/home/dmishra01/stormwind/.strmwnd/bin/python3"
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": []
   }
 }
